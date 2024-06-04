@@ -86,12 +86,11 @@ def train_and_evaluate_model(model, X_train, X_test, y_train, y_test):
     
     print(f"Model: {model.__class__.__name__}")
     print("Accuracy:", accuracy_score(y_test, y_pred))
-    # print("Classification Report:\n", classification_report(y_test, y_pred, target_names=['Olumsuz', 'Olumlu']))
     
     # Confusion Matrix
     cm = confusion_matrix(y_test, y_pred)
     plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Olumsuz', 'Olumlu'], yticklabels=['Olumsuz', 'Olumlu'])
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['negative', 'Positive'], yticklabels=['Negative', 'Positive'])
     plt.xlabel('Predicted')
     plt.ylabel('True')
     plt.title(f'Confusion Matrix - {model.__class__.__name__}')
@@ -133,7 +132,7 @@ def predict_sentiment(text):
     
     # Predict the sentiment of the entire sentence
     sentence_prediction = pipeline.named_steps['classifier'].predict(vectorized_text)[0]
-    sentence_prediction_label = 'Olumlu' if sentence_prediction == 1 else 'Olumsuz'
+    sentence_prediction_label = 'Positive' if sentence_prediction == 1 else 'Negative'
     
     # Convert the sparse matrix to a dense array
     vectorized_text_array = vectorized_text.toarray()[0]
@@ -148,7 +147,7 @@ def predict_sentiment(text):
         if len(word.split()) > 1:  # Check if the word is an n-gram
             word_vectorized = tfidf.transform([word])
             word_prediction = pipeline.named_steps['classifier'].predict(word_vectorized)[0]
-            word_prediction_label = 'Olumlu' if word_prediction == 1 else 'Olumsuz'
+            word_prediction_label = 'Positive' if word_prediction == 1 else 'Negative'
             word_sentiments[word] = word_prediction_label
     
     return sentence_prediction_label, word_sentiments
