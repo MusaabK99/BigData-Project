@@ -143,11 +143,8 @@ def predict_sentiment(text):
     # Predict sentiment for each word
     word_sentiments = {}
     for word in filtered_words:
-        if len(word.split()) > 1:  # Check if the word is an n-gram
-            word_vectorized = tfidf.transform([word])
-            word_prediction = pipeline.named_steps['classifier'].predict(word_vectorized)[0]
-            word_prediction_label = 'Positive' if word_prediction == 1 else 'Negative'
-            word_sentiments[word] = word_prediction_label
+        word_prediction = pipeline.named_steps['classifier'].predict(pipeline.named_steps['vectorizer'].transform([word]))[0]
+        word_sentiments[word] = 'Olumlu' if word_prediction == 1 else 'Olumsuz'
     
     return sentence_prediction_label, word_sentiments
 
