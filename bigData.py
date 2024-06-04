@@ -17,4 +17,4 @@ if st.button('Predict'):
     st.write(f"Sentence sentiment: {sentence_sentiment}")
     st.write("Word sentiments:")
     for word, sentiment in word_sentiments.items():
-        st.write(f"{word}")
+        st.write(f"{word} : {sentiment}")
