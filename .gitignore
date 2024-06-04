@@ -1,0 +1,5 @@
+.streamlit/cache/
+.streamlit/secrets.toml
+
+*.pyc
+__pycache__/
