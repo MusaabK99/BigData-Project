@@ -71,7 +71,7 @@ X_test_tfidf = tfidf.transform(X_te)
 # %%
 models = [
     LogisticRegression(),
-    SVC(kernel='linear'),
+    SVC(kernel='linear', probability=True),
     RandomForestClassifier(),
     GradientBoostingClassifier(),
     MultinomialNB(),
@@ -137,14 +137,25 @@ def predict_sentiment(text):
     vectorized_text_array = vectorized_text.toarray()[0]
     
     # Extract words
-    words = tfidf.get_feature_names_out()
+    words = pipeline.named_steps['vectorizer'].get_feature_names_out()
     filtered_words = [words[i] for i, value in enumerate(vectorized_text_array) if value > 0 and words[i] not in ineffective]
     
-    # Predict sentiment for each word
+    # Predict sentiment for each word and get the probability scores
     word_sentiments = {}
     for word in filtered_words:
-        word_prediction = pipeline.named_steps['classifier'].predict(pipeline.named_steps['vectorizer'].transform([word]))[0]
-        word_sentiments[word] = 'Olumlu' if word_prediction == 1 else 'Olumsuz'
+        word_vectorized = pipeline.named_steps['vectorizer'].transform([word])
+        word_prediction = pipeline.named_steps['classifier'].predict(word_vectorized)[0]
+        word_proba = pipeline.named_steps['classifier'].predict_proba(word_vectorized)[0]
+        
+        # Get the probability of the positive class (assuming positive class is labeled as 1)
+        positive_proba = word_proba[1]
+        negative_proba = word_proba[0]
+        
+        word_sentiments[word] = {
+            'label': 'Positive' if word_prediction == 1 else 'Negative',
+            'positive_percentage': positive_proba * 100,
+            'negative_percentage': negative_proba * 100
+        }
     
     return sentence_prediction_label, word_sentiments
 
@@ -152,7 +163,7 @@ def predict_sentiment(text):
 # test_text = "Güzel ürün. Hızlı teslimat"
 # sentence_sentiment, word_sentiments = predict_sentiment(test_text)
 
-# Print the sentiment of the entire sentence
+# # Print the sentiment of the entire sentence
 # print(f"Sentence sentiment: {sentence_sentiment}")
 
 # # Print the sentiment of individual words
