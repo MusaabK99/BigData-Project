@@ -21,15 +21,15 @@ Make sure you have the following installed:
    git clone https://github.com/your_username/big-data-sentiment-analysis.git
 
 2. Navigate to the project directory:
-    cd big-data-sentiment-analysis
+     ```cd big-data-sentiment-analysis
 
 3. Install the required dependencies:
-    pip install -r requirements.txt
+     ```pip install -r requirements.txt
 
 ### Usage
 
 1. Once the dependencies are installed, run the Streamlit app:
-    streamlit run app.py
+    ```streamlit run app.py
 2. This will open a new tab in your default web browser showing the Streamlit application.
 3. Input your text data into the provided text box.
 4. Click the "Predict" button to see the sentiment prediction for the input text.
