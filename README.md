@@ -43,7 +43,4 @@ Contributions are welcome! Feel free to open issues and pull requests to improve
 ### License
 This project is licensed under the [MIT License](LICENSE).
 
-Replace `https://github.com/MusaabK99/BigData-Project` with your GitHub username and `https://bigdataproject.streamlit.app/` with the actual link to your deployed Streamlit application.
-
-
 
